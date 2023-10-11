@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:15.4-alpine'
     volumes:
       - mydatabase_data:/var/lib/postgresql/data/
     environment:
@@ -8,17 +8,16 @@ services:
       - 'POSTGRES_PASSWORD=orderhere'
       - 'POSTGRES_USER=postgres'
 
-    # To avoid clashes with pgAdmin default server
     ports:
-      - '5570:5432'
+      - '5432:5432'
 
-  rabbitmq:
-    image: 'rabbitmq:latest'
-    environment:
-      - 'RABBITMQ_DEFAULT_PASS=orderhere'
-      - 'RABBITMQ_DEFAULT_USER=rabbitmq'
-    ports:
-      - '5672:5672'
+#  rabbitmq:
+#    image: 'rabbitmq:latest'
+#    environment:
+#      - 'RABBITMQ_DEFAULT_PASS=orderhere'
+#      - 'RABBITMQ_DEFAULT_USER=rabbitmq'
+#    ports:
+#      - '5672:5672'
 
 volumes:
   mydatabase_data: {}
