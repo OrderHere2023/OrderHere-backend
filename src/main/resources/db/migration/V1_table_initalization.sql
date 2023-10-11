@@ -22,7 +22,7 @@ CREATE TYPE order_type AS ENUM ('DINE_IN', 'DELIVERY', 'PICKUP');
 
 CREATE TABLE "orders"
 (
-    order_id     BIGSERIAL PRIMARY KEY    NOT NULL UNIQUE REFERENCES "order_items" ("order_item_id"),
+    order_id     BIGSERIAL PRIMARY KEY    NOT NULL UNIQUE,
     user_id      BIGINT REFERENCES "users" ("user_id"),
     created_time TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_time TIMESTAMP WITH TIME ZONE NOT NULL,
