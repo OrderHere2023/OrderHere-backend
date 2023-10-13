@@ -40,7 +40,19 @@ CREATE TABLE "orders"
 
 
 -- Robin Restaurants
-
+create TABLE "restaurants"
+(
+    "restaurant_id"  BIGSERIAL PRIMARY KEY,
+    "name"           VARCHAR(255)        NOT NULL,
+    "description"    TEXT                NOT NULL,
+    "address"        VARCHAR(255)        NOT NULL,
+    "contact_number" VARCHAR(255)        NOT NULL,
+    "opening_hours"  VARCHAR(255)        NOT NULL,
+    "closed_days"    VARCHAR(255)        NOT NULL,
+    "average_rating" DECIMAL(3,1),
+    "created_time" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "updated_time" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 -- Charles Users
 
