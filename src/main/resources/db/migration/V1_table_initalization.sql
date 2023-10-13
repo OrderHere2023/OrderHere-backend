@@ -28,3 +28,20 @@ EXTENSION IF NOT EXISTS pgcrypto;
 
 -- shanshan Ingredients & Items
 
+-- Ingredients Table
+CREATE TABLE Ingredients
+(
+    ingredient_id     SERIAL PRIMARY KEY,
+    ingredient_name   VARCHAR(255)       NOT NULL,
+    unit              VARCHAR(50)        NOT NULL
+);
+
+-- IngredientItems Table
+CREATE TABLE IngredientItems
+(
+    ingredientitems_id   SERIAL PRIMARY KEY,
+    dish_id              INTEGER           NOT NULL REFERENCES Dishes (dish_id),
+    ingredient_id        INTEGER           NOT NULL REFERENCES Ingredients (ingredient_id),
+    quantity_value       DECIMAL(10, 2)    NOT NULL,
+    quantity_unit        VARCHAR(50)       NOT NULL
+);
