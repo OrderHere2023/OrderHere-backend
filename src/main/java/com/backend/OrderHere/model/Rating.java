@@ -2,12 +2,14 @@ package com.backend.OrderHere.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.*;
-import java.util.UUID;
-import java.sql.Timestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -18,15 +20,15 @@ import java.sql.Timestamp;
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "rating_id", nullable = false)
-    private UUID ratingId;
+    @Column(name = "rating_id", nullable = false, unique = true)
+    private Long ratingId;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @Column(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Integer userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Column(name = "dish_id", nullable = false)
+    @JoinColumn(name = "dish_id", nullable = false)
     private Integer dishId;
 
     @Column(name = "rating_value", nullable = false)
@@ -35,6 +37,11 @@ public class Rating {
     @Column(name = "comments")
     private String comments;
 
-    @Column(name = "create_at", nullable = false)
-    private Timestamp createdAt;
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false)
+    private ZonedDateTime createdTime;
+
+    @UpdateTimestamp
+    @Column(name = "updated_time", nullable = false)
+    private ZonedDateTime updatedTime;
 }

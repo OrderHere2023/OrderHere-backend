@@ -11,12 +11,13 @@ EXTENSION IF NOT EXISTS pgcrypto;
 -- Photos Rating
 CREATE TABLE rating
 (
-    rating_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    rating_id long PRIMARY KEY UNIQUE,
     user_id integer NOT NULL REFERENCES Users (user_id),
     dish_id integer NOT NULL REFERENCES DIshes (dish_id),
     rating_value decimal NOT NULL,
     comments varchar,
-    create_at timestamp NOT NULL
+    created_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_time TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- zzy Bookings
