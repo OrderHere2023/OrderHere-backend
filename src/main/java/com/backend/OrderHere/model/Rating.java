@@ -21,9 +21,11 @@ public class Rating {
     @Column(name = "rating_id", nullable = false)
     private UUID ratingId;
     
+    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
+    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "dish_id", nullable = false)
     private Integer dishId;
 
