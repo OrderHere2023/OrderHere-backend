@@ -1,5 +1,4 @@
 package com.backend.OrderHere.model;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,37 +8,31 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @DynamicUpdate
 @DynamicInsert
-@Table(name = "restaurants")
-public class Restaurant {
+@Table(name = "opening_hours")
+public class OpeningHours {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
+    @Column(nullable = false)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @Column(nullable = false)
-    private String name;
+    private String dayOfWeek;
 
     @Column(nullable = false)
-    private String description;
+    private String openingTime;
 
     @Column(nullable = false)
-    private String address;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<OpeningHours> openingHours;
-
-    @Column(nullable = false)
-    private String contactNumber;
-
-    @Column
-    private Double averageRating;
+    private String closingTime;
 
     @CreationTimestamp
     @Column(name = "created_time", nullable = false)
