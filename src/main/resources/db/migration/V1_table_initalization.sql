@@ -15,6 +15,19 @@ CREATE TABLE "order_items"
 -- zzy Bookings
 CREATE TYPE booking_status AS ENUM ('PENDING', 'CONFIRMED', 'CANCELLED');
 
+CREATE OR REPLACE FUNCTION update_updated_time()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_time = NOW();
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_updated_time_before_update
+    BEFORE UPDATE ON Bookings
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_time();
+
 CREATE TABLE Bookings
 (
     booking_id       SERIAL PRIMARY KEY,
@@ -22,7 +35,9 @@ CREATE TABLE Bookings
     table_number     INTEGER                  NOT NULL,
     reservation_time TIMESTAMP WITH TIME ZONE NOT NULL,
     status           booking_status           NOT NULL,
-    restaurant_id    INTEGER                  NOT NULL REFERENCES Restaurants (restaurant_id)
+    restaurant_id    INTEGER                  NOT NULL REFERENCES Restaurants (restaurant_id),
+    created_time     TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_time     TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Steve Order

@@ -1,5 +1,6 @@
 package com.backend.OrderHere.model;
 
+import com.backend.OrderHere.model.enums.BookingStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -34,14 +35,16 @@ public class Booking {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
-  private BookingStatus status;
+  private BookingStatusEnum status;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "restaurant_id", nullable = false)
   private Restaurant restaurant;
 
-  public enum BookingStatus {
-    PENDING, CONFIRMED, CANCELLED
-  }
+  @Column(name = "created_time", nullable = false)
+  private ZonedDateTime createdTime;
+
+  @Column(name = "updated_time", nullable = false)
+  private ZonedDateTime updatedTime;
 }
 
