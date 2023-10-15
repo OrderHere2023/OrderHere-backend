@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.ZonedDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -21,7 +25,7 @@ public class IngredientItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id", nullable = false)
-    private Dish dish;
+    private Dishes dish;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id", nullable = false)
@@ -33,7 +37,13 @@ public class IngredientItem {
     @Column(name = "quantity_unit", nullable = false)
     private String quantityUnit;
 
-   
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false)
+    private ZonedDateTime createdTime;
+  
+    @UpdateTimestamp
+    @Column(name = "updated_time", nullable = false)
+    private ZonedDateTime updatedTime;
 }
 
 

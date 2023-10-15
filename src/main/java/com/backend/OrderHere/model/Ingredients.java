@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.ZonedDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -24,5 +28,13 @@ public class Ingredients {
 
     @Column(name = "unit", nullable = false)
     private String unit;
+
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false)
+    private ZonedDateTime createdTime;
+  
+    @UpdateTimestamp
+    @Column(name = "updated_time", nullable = false)
+    private ZonedDateTime updatedTime;
 
 }
