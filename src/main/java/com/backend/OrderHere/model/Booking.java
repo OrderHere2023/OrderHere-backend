@@ -3,10 +3,12 @@ package com.backend.OrderHere.model;
 import com.backend.OrderHere.model.enums.BookingStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.ZonedDateTime;
 
@@ -41,9 +43,11 @@ public class Booking {
   @JoinColumn(name = "restaurant_id", nullable = false)
   private Restaurant restaurant;
 
+  @CreationTimestamp
   @Column(name = "created_time", nullable = false)
   private ZonedDateTime createdTime;
 
+  @UpdateTimestamp
   @Column(name = "updated_time", nullable = false)
   private ZonedDateTime updatedTime;
 }
