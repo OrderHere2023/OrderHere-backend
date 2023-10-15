@@ -1,5 +1,7 @@
 package com.backend.OrderHere.model;
 
+import com.backend.OrderHere.model.enums.OrderStatus;
+import com.backend.OrderHere.model.enums.OrderType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -31,14 +33,6 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @CreationTimestamp
-    @Column(name = "created_time", nullable = false)
-    private OffsetDateTime createdTime;
-
-    @UpdateTimestamp
-    @Column(name = "updated_time", nullable = false)
-    private OffsetDateTime updatedTime;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
@@ -51,7 +45,7 @@ public class Order {
     private Integer tableNumber;
 
     @Column(name = "pickup_time")
-    private OffsetDateTime pickupTime;
+    private ZonedDateTime pickupTime;
 
     @Column(name = "address")
     private String address;
@@ -65,5 +59,12 @@ public class Order {
     @Column(name = "note")
     private String note;
 
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false)
+    private ZonedDateTime createdTime;
+
+    @UpdateTimestamp
+    @Column(name = "updated_time", nullable = false)
+    private ZonedDateTime updatedTime;
 
 }
