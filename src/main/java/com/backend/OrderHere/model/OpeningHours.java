@@ -27,6 +27,7 @@ public class OpeningHours {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String dayOfWeek;
 
