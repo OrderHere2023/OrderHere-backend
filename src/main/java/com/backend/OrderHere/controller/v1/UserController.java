@@ -50,43 +50,45 @@ public class UserController {
         return ("Post Method is fine, no problem at all");
     }
 
-    @PostMapping("/forgot")
+    @PostMapping("/forget-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
         String email = body.get("email");
         // check whether user email exist
-        User user = userService.findUserByUsernameAndEmail(username,email);
+        User user = userService.findByEmail(email);
         if (user == null) {
+            logger.debug("Received email for password reset: {}", email);
             return new ResponseEntity<>("Invalid email", HttpStatus.BAD_REQUEST);
         }
 
-        // generate new token
-        String token = tokenService.generateToken();
+        // generate 6-digit code
+        String code = tokenService.generateCode();
+
+        // Convert this code to JWT.
+        tokenService.generateToken(code);
 
         try {
             // send token to user email
-            emailService.sendEmailWithToken(email, token);
+            emailService.sendEmailWithCode(email, code);
         } catch (MessagingException e) {
             logger.error("email_wrong", e);
             return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>("Token sent successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Verification code sent successfully", HttpStatus.OK);
     }
 
     @PostMapping("/reset")
     public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
         String email = body.get("email");
-        String token = body.get("token");
+        String code = body.get("code");
         String newPassword = body.get("newPassword");
 
-        boolean resetSuccessful = userService.resetPassword(username, email, token, newPassword);
+        boolean resetSuccessful = userService.resetPassword(email, code, newPassword);
         if (resetSuccessful) {
-            logger.debug("Password reset successful for user: {}", username);
+            logger.debug("Password reset successful for email: {}", email);
             return new ResponseEntity<>("Password reset successful.", HttpStatus.OK);
         } else {
-            logger.debug("Password reset failed for user: {}", username);
+            logger.debug("Password reset failed for email: {}", email);
             return new ResponseEntity<>("Password reset failed.", HttpStatus.BAD_REQUEST);
         }
     }

@@ -9,37 +9,61 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class TokenService {
-
     private static final int EXPIRATION_TIME_MINUTES = 30;
 
-//    @Value("${jwt.secret}")
-//    private String secret;
-//
-//    public TokenService(String secret) {
-//        this.secret = secret;
-//    }
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken() {
-        return Jwts.builder()
-                .setSubject("password-reset")
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_MINUTES * 60 * 1000))
-                .signWith(key)
-                .compact();
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int TOKEN_LENGTH = 6;
+    private final Map<String, String> codeToTokenMap = new ConcurrentHashMap<>();
+
+
+    public String generateCode() {
+        StringBuilder code = new StringBuilder(TOKEN_LENGTH);
+        Random random = new Random();
+
+        for (int i = 0; i < TOKEN_LENGTH; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            code.append(CHARACTERS.charAt(index));
+        }
+
+        return code.toString();
     }
 
-    public boolean isTokenValid(String token) {
+    public void generateToken(String code) {
+        Date expirationDate = new Date(System.currentTimeMillis() + (long) EXPIRATION_TIME_MINUTES * 60 * 1000);
+
+        String jwt = Jwts.builder()
+                .setSubject(code)
+                .setIssuedAt(new Date())
+                .setExpiration(expirationDate)
+                .signWith(key)
+                .compact();
+        codeToTokenMap.put(code, jwt);
+    }
+
+    public boolean isCodeValid(String code) {
+        String jwt = codeToTokenMap.get(code);
+        if (jwt == null) return false;
         try {
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token);
-            return true;
+                    .parseClaimsJws(jwt);
+
+            // get token expiration time
+            Date expirationDate = claimsJws.getBody().getExpiration();
+
+            // check whether token is expired
+            return expirationDate.after(new Date());
         } catch (Exception e) {
+            // invalid token
             return false;
         }
     }

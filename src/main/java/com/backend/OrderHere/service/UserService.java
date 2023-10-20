@@ -24,7 +24,7 @@ public class UserService {
         user.setFirstname(userPostDto.getFirstname());
         user.setLastname(userPostDto.getLastname());
         user.setEmail(userPostDto.getEmail());
-        user.setUserRoleEnum(UserRole.CUSTOMER);
+        user.setUserRole(UserRole.customer);
 
         userRepository.save(user);
 
@@ -36,15 +36,15 @@ public class UserService {
 
         return userGetDto;
     }
-    public User findUserByUsernameAndEmail(String username, String email) {
-        return userRepository.findByUsernameAndEmail(username, email);
+    public User findByEmail( String email) {
+        return userRepository.findByEmail( email);
     }
 
-    public boolean resetPassword(String username, String email, String token, String newPassword) {
+    public boolean resetPassword(String email, String code, String newPassword) {
         // check whether token is valid
-        if (tokenService.isTokenValid(token)) {
+        if (tokenService.isCodeValid(code)) {
             // check whether user exist
-            User user = userRepository.findByUsernameAndEmail(username, email);
+            User user = userRepository.findByEmail(email);
             if (user != null) {
                 // if all match
                 user.setPassword(newPassword);

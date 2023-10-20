@@ -1,2 +1,0 @@
-ALTER TABLE users
-ALTER COLUMN user_role TYPE VARCHAR USING user_role::VARCHAR;

@@ -10,7 +10,7 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    public void sendEmailWithToken(String recipientEmail, String token) throws MessagingException {
+    public void sendEmailWithCode(String recipientEmail, String code) throws MessagingException {
         // gmail service setting
         String host = "smtp.gmail.com";
 //        String port = "587"; //TLS
@@ -41,12 +41,16 @@ public class EmailService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject("Reset New Password");
-            message.setText("Your new password token：" + token);
+            String emailContent = "Hello,<br><br>" +
+                    "We've received a request to reset the password for your OrderHere account.<br><br>" +
+                    "Please use the following verification code to continue: <span style=\"color: red;\">" + code + "</span><br><br>" +
+                    "Kindly note, this code will expire in 30 minutes. If you did not make this request, please ignore this email.";
+            message.setContent(emailContent, "text/html");
+
             // send email
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
