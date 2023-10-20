@@ -25,6 +25,9 @@ public class Order {
     @Column(name = "order_id", nullable = false)
     private Integer orderId;
 
+//    @Column(name = "user_id")
+//    private Integer userId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,7 +44,7 @@ public class Order {
     private Integer tableNumber;
 
     @Column(name = "pickup_time")
-    private OffsetDateTime pickupTime;
+    private ZonedDateTime pickupTime;
 
     @Column(name = "address")
     private String address;

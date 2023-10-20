@@ -7,10 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-
-@Getter
-@Setter
-@Builder
 @Data
 public class OrderGetDTO {
 
