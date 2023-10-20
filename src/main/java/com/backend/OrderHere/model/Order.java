@@ -2,6 +2,7 @@ package com.backend.OrderHere.model;
 
 import com.backend.OrderHere.model.enums.OrderStatus;
 import com.backend.OrderHere.model.enums.OrderType;
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,19 +26,18 @@ public class Order {
     @Column(name = "order_id", nullable = false)
     private Integer orderId;
 
-//    @Column(name = "user_id")
-//    private Integer userId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status", nullable = false)
+    @Type(PostgreSQLEnumType.class)
+    @Column(name = "order_status", nullable = false, columnDefinition = "order_status")
     private OrderStatus orderStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_type", nullable = false)
+    @Type(PostgreSQLEnumType.class)
+    @Column(name = "order_type", nullable = false, columnDefinition = "order_type")
     private OrderType orderType;
 
     @Column(name = "table_number")

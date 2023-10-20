@@ -1,13 +1,12 @@
 package com.backend.OrderHere.model;
 
 import com.backend.OrderHere.model.enums.UserRole;
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.time.ZonedDateTime;
 
@@ -46,7 +45,8 @@ public class User {
     private int point;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role", nullable = false, columnDefinition = "user_role")
+    @Type(PostgreSQLEnumType.class)
     private UserRole userRole;
 
     @CreationTimestamp
