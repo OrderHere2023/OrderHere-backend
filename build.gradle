@@ -45,10 +45,19 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    // email verify
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'javax.activation:javax.activation-api:1.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
     // jwt
 //	implementation 'io.jsonwebtoken:jjwt-api'
 //	runtimeOnly 'io.jsonwebtoken:jjwt-impl'
 //	runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+
 
     // database
     compileOnly 'org.projectlombok:lombok'
@@ -93,4 +102,9 @@ jacocoTestReport {
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
+}
+
+// check for api issue
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-Xlint:deprecation"]
 }
