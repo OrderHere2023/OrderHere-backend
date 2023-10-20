@@ -36,8 +36,8 @@ public class UserService {
 
         return userGetDto;
     }
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findUserByUsernameAndEmail(String username, String email) {
+        return userRepository.findByUsernameAndEmail(username, email);
     }
 
     public boolean resetPassword(String username, String email, String token, String newPassword) {

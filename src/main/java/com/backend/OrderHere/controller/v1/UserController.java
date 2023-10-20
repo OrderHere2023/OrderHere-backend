@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class UserController {
     private final EmailService emailService;
     private final TokenService tokenService;
 
-    @RequestMapping("/signup")
+    @PostMapping("/signup")
     public ResponseEntity<UserGetDto> registerUser(@RequestBody UserPostDto userPostDto){
 
         logger.debug("Received registration request from user: {}", userPostDto);
@@ -50,10 +51,11 @@ public class UserController {
     }
 
     @PostMapping("/forgot")
-    public ResponseEntity<String> forgotPassword(@RequestParam String username,
-                                                 @RequestParam String email) {
+    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String email = body.get("email");
         // check whether user email exist
-        User user = userService.findUserByEmail(email);
+        User user = userService.findUserByUsernameAndEmail(username,email);
         if (user == null) {
             return new ResponseEntity<>("Invalid email", HttpStatus.BAD_REQUEST);
         }
@@ -65,6 +67,7 @@ public class UserController {
             // send token to user email
             emailService.sendEmailWithToken(email, token);
         } catch (MessagingException e) {
+            logger.error("email_wrong", e);
             return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -72,10 +75,12 @@ public class UserController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<String> resetPassword(@RequestParam String username,
-                                                @RequestParam String email,
-                                                @RequestParam String token,
-                                                @RequestParam String newPassword) {
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String email = body.get("email");
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+
         boolean resetSuccessful = userService.resetPassword(username, email, token, newPassword);
         if (resetSuccessful) {
             logger.debug("Password reset successful for user: {}", username);

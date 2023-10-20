@@ -28,8 +28,8 @@ public class SecurityConfig{
                         .requestMatchers("/v1/public/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults());
+                .csrf(AbstractHttpConfigurer::disable);
+//                .httpBasic(Customizer.withDefaults());
 
         logger.debug("Finished configuring security filter chain");
 

@@ -1,6 +1,7 @@
 package com.backend.OrderHere.model;
 
 import com.backend.OrderHere.model.enums.UserRole;
+import com.backend.OrderHere.util.UserRoleConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
+//    @Convert(converter = UserRoleConverter.class)
     private UserRole userRoleEnum;
 
     @CreationTimestamp
