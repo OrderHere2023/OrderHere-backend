@@ -6,6 +6,7 @@ import com.backend.OrderHere.service.DishService;
 import com.backend.OrderHere.service.enums.DishSort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ import static com.backend.OrderHere.util.SortHelper.getSortOrder;
 public class MenuController {
     private final DishService dishService;
 
-    @GetMapping("/dishes")
+    @GetMapping("/{restaurantId}")
     @ResponseStatus(HttpStatus.OK)
     public PagingDto<List<DishGetDto>> getDishes(@PathVariable Integer restaurantId,
-                                                 @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int size,
-                                                 @RequestParam(defaultValue = "category") String sort,
-                                                 @RequestParam(defaultValue = "asc") String order) {
+                                                                @RequestParam(defaultValue = "1") int page,
+                                                                @RequestParam(defaultValue = "0") int size,
+                                                                @RequestParam(defaultValue = "category") String sort,
+                                                                @RequestParam(defaultValue = "asc") String order) {
         return dishService.getDishPageByRestaurantId(
                 restaurantId,
                 page,

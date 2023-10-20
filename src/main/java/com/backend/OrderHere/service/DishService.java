@@ -30,7 +30,13 @@ public class DishService {
                                                                  int size,
                                                                  DishSort sort,
                                                                  Sort.Direction order) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(order, sort.getName()));
+        Pageable pageable;
+        if (size <= 0) {
+            pageable = Pageable.unpaged();
+        }
+        else {
+            pageable = PageRequest.of(page - 1, size, Sort.by(order, sort.getName()));
+        }
 
         Page<Dish> dishPage = dishRepository.findDishesByRestaurantId(restaurantId, pageable);
 
