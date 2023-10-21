@@ -17,6 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TokenService {
     private static final int EXPIRATION_TIME_MINUTES = 30;
 
+    //for test
+//    private static final int EXPIRATION_TIME_MINUTES = 1;
+
+
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
