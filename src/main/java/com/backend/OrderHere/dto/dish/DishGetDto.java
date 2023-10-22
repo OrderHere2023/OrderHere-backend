@@ -18,10 +18,11 @@ public class DishGetDto {
     private String description;
     private BigDecimal price;
     private String imageUrl;
-    private String category;
     private BigDecimal rating;
     private Integer restaurantId;
     private Boolean availability;
     private ZonedDateTime createdTime;
     private ZonedDateTime updatedTime;
+    private Integer categoryId;
+    private String categoryName;
 }

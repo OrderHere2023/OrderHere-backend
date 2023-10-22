@@ -38,9 +38,6 @@ public class Dish {
     @Column(name = "image_url", nullable = true)
     private String imageUrl;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
     @Column(name = "rating", nullable = true, precision = 3, scale = 1)
     private BigDecimal rating;
 
@@ -57,4 +54,9 @@ public class Dish {
     @UpdateTimestamp
     @Column(name = "updated_time", nullable = false)
     private ZonedDateTime updatedTime;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

@@ -52,4 +52,11 @@ public class DishService {
                 .totalItems(dishPage.getTotalElements())
                 .build();
     }
+
+    public List<DishGetDto> getDishByCategory(Integer restaurantId, Integer categoryId) {
+        return dishRepository.findAllByRestaurantIdAndCategoryCategoryId(restaurantId, categoryId)
+                .stream()
+                .map(dishMapper::dishToDishGetDto)
+                .toList();
+    }
 }
