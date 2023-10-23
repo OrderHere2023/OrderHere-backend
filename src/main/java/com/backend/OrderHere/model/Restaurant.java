@@ -54,7 +54,7 @@ public class Restaurant {
     @Column(name = "owner_crn", nullable = false)
     private String ownerCrn;
 
-    @Column(name = "average_rating", nullable = false)
+    @Column(name = "average_rating")
     private BigDecimal averageRating;
 
     @CreationTimestamp
