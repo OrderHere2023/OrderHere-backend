@@ -1,5 +1,6 @@
 package com.backend.OrderHere.model;
 
+import com.backend.OrderHere.model.enums.Week;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class OpeningHours {
     private Restaurant restaurant;
 
     @Column(nullable = false)
-    private String dayOfWeek;
+    private Week dayOfWeek;
 
     @Column(nullable = false)
     private String openingTime;
