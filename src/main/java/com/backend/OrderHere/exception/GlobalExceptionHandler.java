@@ -35,16 +35,16 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-      .body(ex.getMessage());
-  }
+    public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ex.getMessage());
+    }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-      .body(ex.getMessage());
-  }
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ex.getMessage());
+    }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
