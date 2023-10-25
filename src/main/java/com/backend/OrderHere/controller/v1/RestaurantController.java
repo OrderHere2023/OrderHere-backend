@@ -6,6 +6,7 @@ import com.backend.OrderHere.dto.Restaurant.RestaurantUpdateDTO;
 import com.backend.OrderHere.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,23 +20,27 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping
-    public ResponseEntity<List<RestaurantGetDTO>> getAllRestaurants() {
-        return ResponseEntity.ok(restaurantService.getAllRestaurants());
+    @ResponseStatus(HttpStatus.OK)
+    public List<RestaurantGetDTO> getAllRestaurants() {
+        return restaurantService.getAllRestaurants();
     }
 
     @PostMapping
-    public ResponseEntity<RestaurantGetDTO> createRestaurant(@Valid @RequestBody RestaurantCreateDTO restaurantCreateDTO) {
-        return ResponseEntity.ok(restaurantService.createRestaurant(restaurantCreateDTO));
+    @ResponseStatus(HttpStatus.CREATED)
+    public RestaurantGetDTO createRestaurant(@Valid @RequestBody RestaurantCreateDTO restaurantCreateDTO) {
+        return restaurantService.createRestaurant(restaurantCreateDTO);
     }
 
     @GetMapping("/{restaurantId}")
-    public ResponseEntity<RestaurantGetDTO> getRestaurantById(@PathVariable Integer restaurantId) {
-        return ResponseEntity.ok(restaurantService.getRestaurantById(restaurantId));
+    @ResponseStatus(HttpStatus.OK)
+    public RestaurantGetDTO getRestaurantById(@PathVariable Integer restaurantId) {
+        return restaurantService.getRestaurantById(restaurantId);
     }
 
     @PutMapping("/{restaurantId}")
-    public ResponseEntity<RestaurantGetDTO> updateRestaurantById(@PathVariable Integer restaurantId, @Valid @RequestBody RestaurantUpdateDTO restaurantUpdateDTO) {
-        return ResponseEntity.ok(restaurantService.updateRestaurantById(restaurantId, restaurantUpdateDTO));
+    @ResponseStatus(HttpStatus.OK)
+    public RestaurantGetDTO updateRestaurantById(@PathVariable Integer restaurantId, @Valid @RequestBody RestaurantUpdateDTO restaurantUpdateDTO) {
+        return restaurantService.updateRestaurantById(restaurantId, restaurantUpdateDTO);
     }
 
 }
