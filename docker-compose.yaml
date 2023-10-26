@@ -6,7 +6,7 @@ services:
       - 'POSTGRES_PASSWORD=orderhere'
       - 'POSTGRES_USER=postgres'
     ports:
-      - '5432:5432'
+      - '5500:5432'
 
 #  rabbitmq:
 #    image: 'rabbitmq:latest'

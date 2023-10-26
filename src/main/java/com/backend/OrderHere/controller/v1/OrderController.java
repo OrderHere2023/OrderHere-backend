@@ -1,30 +1,27 @@
 package com.backend.OrderHere.controller.v1;
-import com.backend.OrderHere.dto.PlaceOrderDTO;
-import com.backend.OrderHere.model.Order;
-import com.backend.OrderHere.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import com.backend.OrderHere.dto.Order.OrderGetDTO;
 import com.backend.OrderHere.dto.Order.UpdateOrderStatusDTO;
 import com.backend.OrderHere.model.enums.OrderStatus;
 import com.backend.OrderHere.model.enums.OrderType;
-import lombok.RequiredArgsConstructor;
+import com.backend.OrderHere.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/v1/public/orders")
 public class OrderController {
     private final OrderService orderService;
+
     @Autowired
-    public  OrderController(OrderService orderService){
-        this.orderService=orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @PostMapping
-    public ResponseEntity<Order> placeOrder(@RequestBody PlaceOrderDTO placeOrderDTO){
-        Order placeOrder=orderService.PlaceOrder(placeOrderDTO);
-        return new ResponseEntity<>(placeOrder, HttpStatus.CREATED);
-       @GetMapping
+    @GetMapping
     public ResponseEntity<List<OrderGetDTO>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
@@ -36,7 +33,7 @@ public class OrderController {
 
     @GetMapping("/status")
     public ResponseEntity<List<OrderGetDTO>> getOrderByOrderStatus(@RequestParam("orderStatus") OrderStatus orderStatus) {
-            return ResponseEntity.ok(orderService.getOrderByOrderStatus(orderStatus));
+        return ResponseEntity.ok(orderService.getOrderByOrderStatus(orderStatus));
     }
 
     @GetMapping("/type")
@@ -48,6 +45,5 @@ public class OrderController {
     public ResponseEntity<UpdateOrderStatusDTO> updateOrderStatus(@RequestBody UpdateOrderStatusDTO updateOrderStatusDTO) {
         return ResponseEntity.ok().body(orderService.updateOrderStatus(updateOrderStatusDTO));
     }
-    }
-
 }
+
