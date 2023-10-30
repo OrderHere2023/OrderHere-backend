@@ -29,8 +29,8 @@ public class IngredientController {
     }
 
     @PutMapping("/{id}")
-    public Ingredient updateIngredient(@PathVariable Ingredient ingredient) {
-        return ingredientService.updateIngredient(ingredient);
+    public Ingredient updateIngredient(@PathVariable Ingredient id) {
+        return ingredientService.updateIngredient(id);
     }
 
     @DeleteMapping("/{id}")
