@@ -3,9 +3,7 @@ package com.backend.orderhere.controller.v1;
 import com.backend.orderhere.dto.ingredient.DeleteIngredientDTO;
 import com.backend.orderhere.dto.ingredient.GetIngredientDTO;
 import com.backend.orderhere.dto.ingredient.PostIngredientDTO;
-import com.backend.orderhere.model.Ingredient;
 import com.backend.orderhere.model.LinkIngredientDish;
-import com.backend.orderhere.service.IngredientService;
 import com.backend.orderhere.service.LinkIngredientDishService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/public/ingredients")
-public class IngredientController {
-    @Autowired
-    private IngredientService ingredientService;
+@RequestMapping("/v1/public/link-ingredient-dish")
+public class LinkIngredientDishController {
     @Autowired
     private LinkIngredientDishService linkIngredientDishService;
 
-    @GetMapping
-    public List<Ingredient> getAllIngredients() {
-        return ingredientService.getAllIngredients();
-    }
-
     @PostMapping
-    public LinkIngredientDish createLink(@RequestBody PostIngredientDTO postIngredientDTO) {
-        return linkIngredientDishService.createLink(postIngredientDTO);
+    public LinkIngredientDish createLink(@RequestBody PostIngredientDTO addIngredientDTO) {
+        return linkIngredientDishService.createLink(addIngredientDTO);
     }
 
     @GetMapping("dish/{dishID}")
