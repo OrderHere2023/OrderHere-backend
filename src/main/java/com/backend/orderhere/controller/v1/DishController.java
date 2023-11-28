@@ -49,7 +49,6 @@ public class DishController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void createDish(@Valid @ModelAttribute DishCreateDto dishCreateDto) {
-//      System.out.println(dishCreateDto);
         dishService.createDish(dishCreateDto);
     }
 }
