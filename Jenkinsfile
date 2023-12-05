@@ -1,11 +1,13 @@
 pipeline {
     agent any
-
+    environment{
+        PATH ="/usr/bin:${PATH}"
+    }
     stages {
         stage('Download Dependencies') {
             steps {
                 sh 'gradle -v'
-                sh './gradlew '
+                //sh ''
             }
         }
 
