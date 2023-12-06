@@ -1,15 +1,16 @@
 pipeline {
     agent any
     environment {
-        ecr-repoURL = '411512143549.dkr.ecr.ap-southeast-2.amazonaws.com/orderhere-app'
-        image = 'orderhere-backend'
+        ECR_URL = '411512143549.dkr.ecr.ap-southeast-2.amazonaws.com/orderhere-app'
+        IMAGE = 'orderhere-backend'
     }
 
     stages {
         stage('build docker image') {
             steps {
                 sh 'docker -v'
-                sh 'docker build -t ${env.image}:latest .'
+                //sh 'docker login'
+                sh "docker build -t ${env.IMAGE}:latest ."
             }
         }
 
@@ -18,8 +19,8 @@ pipeline {
                 withAWS(region: 'ap-southeast-2', credentials: 'AWS login')
                 sh 'ls -a'
                 sh 'aws ecr orderhere-app'
-                // sh 'docker tag ${env.image}:latest ${env.ecr-repoURL}:latest'
-                // sh 'docker push ${env.ecr-repoURL}:latest'
+                // sh 'docker tag ${env.IMAGE}:latest ${env.ECR_URL}:latest'
+                // sh 'docker push ${env.ECR_URL}:latest'
             }
         }
 
