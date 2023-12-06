@@ -1,32 +1,27 @@
 pipeline {
     agent any
-    environment{
-        PATH ="/usr/bin:${PATH}"
+    environment {
+        ecr-repoURL = '411512143549.dkr.ecr.ap-southeast-2.amazonaws.com/orderhere-app'
+        image = 'orderhere-backend'
     }
+
     stages {
-        stage('Download Dependencies') {
+        stage('build docker image') {
             steps {
-                sh 'gradle -v'
-                //sh ''
+                sh 'docker -v'
+                sh 'docker build -t ${env.image}:latest .'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('push Docker Image') {
             steps {
+                withAWS(region: 'ap-southeast-2', credentials: 'AWS login')
                 sh 'ls -a'
-                //sh 'docker build -t <YourDockerImageName> .'
+                sh 'aws ecr orderhere-app'
+                // sh 'docker tag ${env.image}:latest ${env.ecr-repoURL}:latest'
+                // sh 'docker push ${env.ecr-repoURL}:latest'
             }
         }
 
-        stage('Push to AWS ECR') {
-            steps {
-                sh 'ls -a'
-                // withAWS(region: '<YourAWSRegion>') {
-                //     sh 'eval $(aws ecr get-login --no-include-email)'
-                //     sh 'docker tag <YourDockerImageName>:latest <YourECRRepository>:latest'
-                //     sh 'docker push <YourECRRepository>:latest'
-                // }
-            }
-        }
     }
 }
