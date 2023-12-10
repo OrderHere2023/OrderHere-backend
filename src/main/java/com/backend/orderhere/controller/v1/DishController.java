@@ -48,14 +48,14 @@ public class DishController {
         return dishService.getDishByCategory(restaurantId, categoryId);
     }
 
-//    @PreAuthorize("hasRole('sys_admin')")
+    @PreAuthorize("hasRole('sys_admin')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void createDish(@Valid @ModelAttribute DishCreateDto dishCreateDto) {
         dishService.createDish(dishCreateDto);
     }
 
-//    @PreAuthorize("hasRole('sys_admin')")
+    @PreAuthorize("hasRole('sys_admin')")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public DishGetDto updateDish(
