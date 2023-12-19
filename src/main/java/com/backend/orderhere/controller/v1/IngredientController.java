@@ -3,25 +3,28 @@ package com.backend.orderhere.controller.v1;
 import com.backend.orderhere.dto.ingredient.DeleteIngredientDTO;
 import com.backend.orderhere.dto.ingredient.GetIngredientDTO;
 import com.backend.orderhere.dto.ingredient.PostIngredientDTO;
+import com.backend.orderhere.dto.ingredient.UpdateIngredientDTO;
 import com.backend.orderhere.model.Ingredient;
 import com.backend.orderhere.model.LinkIngredientDish;
 import com.backend.orderhere.service.IngredientService;
 import com.backend.orderhere.service.LinkIngredientDishService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/public/ingredients")
 public class IngredientController {
-    @Autowired
-    private IngredientService ingredientService;
-    @Autowired
-    private LinkIngredientDishService linkIngredientDishService;
+
+    private final IngredientService ingredientService;
+    private final LinkIngredientDishService linkIngredientDishService;
 
     @GetMapping
     public List<Ingredient> getAllIngredients() {
@@ -29,8 +32,9 @@ public class IngredientController {
     }
 
     @PostMapping
-    public LinkIngredientDish createLink(@RequestBody PostIngredientDTO postIngredientDTO) {
-        return linkIngredientDishService.createLink(postIngredientDTO);
+    public ResponseEntity<Integer> createLink(@RequestBody PostIngredientDTO postIngredientDTO) {
+        Integer ingredientId = linkIngredientDishService.createLink(postIngredientDTO);
+        return ResponseEntity.ok(ingredientId);
     }
 
     @GetMapping("dish/{dishID}")
@@ -54,5 +58,17 @@ public class IngredientController {
     @GetMapping("/{id}")
     public Ingredient getIngredientById(@PathVariable Integer id) {
         return ingredientService.getIngredientById(id);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Ingredient> updateIngredient(@RequestBody UpdateIngredientDTO updateIngredientDTO) {
+        try {
+            Ingredient updatedIngredient = ingredientService.updateIngredientName(updateIngredientDTO);
+            return ResponseEntity.ok(updatedIngredient);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

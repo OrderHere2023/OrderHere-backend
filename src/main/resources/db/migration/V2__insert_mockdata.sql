@@ -1,7 +1,7 @@
 INSERT INTO users (username, firstname, lastname, password, user_email, avatar_url, point, user_role)
-VALUES ('user1', 'user', 'user', '$2a$10$.wLQ2xMfPLjfhCG6cnw.PupQunIZhv6F09ChvsxwvJgnAT.JZUtxq', 'user@user.com',
+VALUES ('user1', 'user', 'user', '$2a$10$.wLQ2xMfPLjfhCG6cnw.PupQunIZhv6F09ChvsxwvJgnAT.JZUtxq', 'admin@email.com',
         'https://freepngimg.com/thumb/google/66726-customer-account-google-service-button-search-logo.png',
-        100, 'customer');
+        100, 'sys_admin');
 -- password:   123456
 
 
@@ -37,7 +37,16 @@ VALUES (1, 'monday', '09:00 AM', '05:00 PM'),
 
 
 INSERT INTO category (restaurant_id, category_name)
-VALUES (1, 'Main Dishes');
+VALUES (1, 'Main Dishes'),
+       (1, 'Soups'),
+       (1, 'Salads'),
+       (1, 'Desserts'),
+       (1, 'Beverages'),
+       (1, 'Appetizers'),
+       (1, 'Side Dishes'),
+       (1, 'Breakfast'),
+       (1, 'Lunch'),
+       (1, 'Dinner');
 
 
 INSERT INTO dish (restaurant_id, dish_name, description, price, image_url, rating, availability, category_id)
@@ -74,11 +83,12 @@ VALUES (1, 1, 4.5, 'Delicious dish!'),
        (1, 4, 4.7, 'Amazing presentation');
 
 
-INSERT INTO orders (user_id, restaurant_id, order_status, order_type, table_number, pickup_time, address, total_price, discount, note)
-VALUES (1, 1, 'pending', 'delivery', NULL, NULL, '123 Main St', 50.00, 0.00, 'No special instructions'),
-       (1, 1, 'preparing', 'pickup', NULL, NULL, NULL, 35.50, 0.00, 'Extra ketchup packets'),
-       (1, 2, 'finished', 'dine_in', 1, NULL, NULL, 75.25, 10.00, 'Call upon arrival'),
-       (1, 1, 'cancelled', 'dine_in', NULL, NULL, NULL, 75.25, 10.00, 'Call upon arrival');
+INSERT INTO orders (user_id, restaurant_id, order_status, order_type, table_number, number_of_people, pickup_time, address, total_price,
+                    discount, note, phone)
+VALUES (1, 1, 'pending', 'delivery', NULL, NULL, NULL, '123 Main St', 50.00, 0.00, 'No special instructions', '0430000000'),
+       (1, 1, 'preparing', 'pickup', NULL, NULL, NULL, NULL, 35.50, 0.00, 'Extra ketchup packets', NULL),
+       (1, 2, 'finished', 'dine_in', 1, 2, NULL, NULL, 75.25, 10.00, 'Call upon arrival', '0430000001'),
+       (1, 1, 'cancelled', 'dine_in', NULL, NULL, NULL, NULL, 75.25, 10.00, 'Call upon arrival', '0430000002');
 
 
 INSERT INTO booking (user_id, table_number, reservation_time, status, restaurant_id)

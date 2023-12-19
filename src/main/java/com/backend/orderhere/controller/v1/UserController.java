@@ -1,13 +1,16 @@
 package com.backend.orderhere.controller.v1;
 
-import com.backend.orderhere.dto.UserProfileUpdateDTO;
+import com.backend.orderhere.config.StaticConfig;
+import com.backend.orderhere.dto.user.UserProfileUpdateDTO;
 import com.backend.orderhere.dto.user.*;
 import com.backend.orderhere.model.User;
 import com.backend.orderhere.service.EmailService;
 import com.backend.orderhere.service.TokenService;
 import com.backend.orderhere.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,9 +53,9 @@ public class UserController {
     String jwtTokenResponse = userService.checkUserOpenId(openId, provider);
     if(jwtTokenResponse == null){
       String newUserToken = userService.createUser(token, openId, provider);
-      return new ResponseEntity<>(newUserToken, HttpStatus.OK);
+      return new ResponseEntity<>( StaticConfig.JwtPrefix + newUserToken, HttpStatus.OK);
     }else{
-      return new ResponseEntity<>(jwtTokenResponse, HttpStatus.OK);
+      return new ResponseEntity<>( StaticConfig.JwtPrefix + jwtTokenResponse, HttpStatus.OK);
     }
   }
 
@@ -91,4 +94,30 @@ public class UserController {
       return new ResponseEntity<>("Password reset failed.", HttpStatus.BAD_REQUEST);
     }
   }
+
+  @GetMapping("/profile")
+  public ResponseEntity<?> getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
+    try {
+      return new ResponseEntity<>(userService.getUserProfile(authorizationHeader), HttpStatus.OK);
+    }
+    catch (Exception e) {
+      return new ResponseEntity<>(e.getCause(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @PutMapping("/profile")
+  public ResponseEntity<UserProfileUpdateDTO> updateUserProfileWithToken(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody UserProfileUpdateDTO dto) {
+    UserProfileUpdateDTO updatedUserProfile = userService.updateUserProfileWithToken(authorizationHeader, dto);
+    return new ResponseEntity<>(updatedUserProfile, HttpStatus.OK);
+  }
+
+  @PutMapping(value = "/profile/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<String> updateUserAvatar(@RequestHeader(name = "Authorization") String authorizationHeader, @Valid @ModelAttribute UserAvatarUpdateDto userAvatarUpdateDto) {
+    try {
+      return new ResponseEntity<>(userService.updateUserAvatar(authorizationHeader, userAvatarUpdateDto), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }
