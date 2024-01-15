@@ -1,29 +1,37 @@
 pipeline {
     agent any
+    environment {
+        ECR_URL = '411512143549.dkr.ecr.ap-southeast-2.amazonaws.com/orderhere-app'
+        IMAGE = 'orderhere-backend'
+        TAG = 'test-lawbb '
+    }
 
     stages {
-        stage('Download Dependencies') {
-            steps {
-                sh 'gradle -v'
-                sh './gradlew '
-            }
-        }
-
-        stage('Build Docker Image') {
+        stage('build docker image') {
             steps {
                 
-                //sh 'docker build -t <YourDockerImageName> .'
+                sh 'docker -v'
+                
+                sh "docker build -t ${env.IMAGE}:${env.TAG} ."
             }
         }
 
-        stage('Push to AWS ECR') {
+        stage('push Docker Image') {
             steps {
-                // withAWS(region: '<YourAWSRegion>') {
-                //     sh 'eval $(aws ecr get-login --no-include-email)'
-                //     sh 'docker tag <YourDockerImageName>:latest <YourECRRepository>:latest'
-                //     sh 'docker push <YourECRRepository>:latest'
-                // }
+                withAWS(region: 'ap-southeast-2', credentials: 'AWS login'){
+                    sh 'ls -a'
+                    sh 'aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 411512143549.dkr.ecr.ap-southeast-2.amazonaws.com/orderhere-app'
+                    sh "docker tag ${env.IMAGE}:latest ${env.ECR_URL}:${env.TAG}"
+                    sh "docker push ${env.ECR_URL}:${env.TAG}"
+                }
+                
             }
         }
+
     }
+    post{
+            always{
+                cleanWs()
+            }
+        }
 }

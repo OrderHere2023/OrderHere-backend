@@ -12,5 +12,4 @@ RUN ./gradlew build -x test
 EXPOSE 8080
 
 CMD ["ls"]
-CMD ["cd", "build"]
-CMD ["ls"]
+
