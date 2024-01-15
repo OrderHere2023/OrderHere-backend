@@ -64,7 +64,7 @@ public class DishController {
     }
 
     @PreAuthorize("hasRole('sys_admin')")
-    @ResponseStatus(HttpStatus.OK) // 使用 204 状态码表示没有内容响应
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/1/{dishId}")
     public void deleteDish(@PathVariable Integer dishId) {
         dishService.deleteDish(dishId);
