@@ -67,6 +67,9 @@ public class DishController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/1/{dishId}")
     public void deleteDish(@PathVariable Integer dishId) {
+
+//        linkIngredientRepository.deleteByDishId(dishId);
+
         dishService.deleteDish(dishId);
     }
 }

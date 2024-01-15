@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,16 +28,16 @@ public class Dish {
   @Column(name = "dish_name", nullable = false)
   private String dishName;
 
-  @Column(name = "description", nullable = true)
+  @Column(name = "description")
   private String description;
 
   @Column(name = "price", nullable = false, precision = 5, scale = 2)
   private BigDecimal price;
 
-  @Column(name = "image_url", nullable = true)
+  @Column(name = "image_url")
   private String imageUrl;
 
-  @Column(name = "rating", nullable = true, precision = 3, scale = 1)
+  @Column(name = "rating", precision = 3, scale = 1)
   private BigDecimal rating;
 
   @Column(name = "restaurant_id", nullable = false)
@@ -57,4 +57,14 @@ public class Dish {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "category_id")
   private Category category;
+
+  @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<LinkIngredientDish> linkIngredientDishes;
+
+  @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Rating> ratings;
+
+  @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<LinkOrderDish> linkOrderDishes;
+  // constructors, getters, setters, and other methods
 }
