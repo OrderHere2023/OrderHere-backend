@@ -28,16 +28,16 @@ public class Dish {
   @Column(name = "dish_name", nullable = false)
   private String dishName;
 
-  @Column(name = "description")
+  @Column(name = "description", nullable = true)
   private String description;
 
   @Column(name = "price", nullable = false, precision = 5, scale = 2)
   private BigDecimal price;
 
-  @Column(name = "image_url")
+  @Column(name = "image_url", nullable = true)
   private String imageUrl;
 
-  @Column(name = "rating", precision = 3, scale = 1)
+  @Column(name = "rating", nullable = true, precision = 3, scale = 1)
   private BigDecimal rating;
 
   @Column(name = "restaurant_id", nullable = false)
