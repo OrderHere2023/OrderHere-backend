@@ -53,4 +53,4 @@ jobs:
 
     - name: Deploy to ECS
       run: |
-         aws ecs update-service --cluster test --service tmp --task-definition orderhere:9
+         aws ecs update-service --cluster test --service oh-test-svc --task-definition orderhere
