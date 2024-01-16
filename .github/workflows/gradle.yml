@@ -2,14 +2,14 @@ name: Build and Dockerize
 
 on:
   push:
-    branches: [ main ]
+    branches: [ devops-liliya ]
 
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    steps:
+    steps: 
     - uses: actions/checkout@v2
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
