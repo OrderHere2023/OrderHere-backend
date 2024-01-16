@@ -2,7 +2,7 @@ name: Build and Dockerize
 
 on:
   push:
-    branches: [ devops-liliya ]
+    branches: [ main ]
 
 
 jobs:
